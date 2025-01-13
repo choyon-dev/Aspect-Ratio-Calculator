@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Aspect Ratio Calculator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fff1f1;
+            color: #333;
+        }
+        .container {
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 30px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(254, 18, 18, 0.1);
+        }
+        h1 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #FE1212;
+        }
+        .calculator {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(254, 18, 18, 0.05);
+        }
+        .inputs {
+            padding: 30px;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 86, 216, 0.05);
+            border: 1px solid #e8edf5;
+        }
+        .input-group {
+            position: relative;
+            margin-bottom: 25px;
+            margin-top: 15px;
+            margin-right: 15px;
+        }
+        .input-group label {
+            position: absolute;
+            left: 15px;
+            top: -10px;
+            background: white;
+            padding: 0 8px;
+            font-size: 0.9rem;
+            color: #FE1212;
+            font-weight: 500;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ffdddd;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            background: transparent;
+            margin-top: 5px;
+        }
+        .input-group input:focus {
+            border-color: #FE1212;
+            box-shadow: 0 0 0 4px rgba(254, 18, 18, 0.1);
+        }
+        .preview {
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            background: linear-gradient(145deg, #fff5f5, #ffffff);
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 86, 216, 0.05);
+            border: 1px solid #e8edf5;
+            min-height: 300px;
+        }
+        .preview-label {
+            font-size: 1rem;
+            color: #FE1212;
+            font-weight: 500;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e8edf5;
+        }
+        .preview-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .ratio-box {
+            background: linear-gradient(135deg, #FE1212, #ff4444);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 86, 216, 0.2);
+            max-width: 100%;
+            max-height: 100%;
+        }
+        .ratio-box span {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        .btn-container {
+            grid-column: 1 / -1;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+        .btn-reset {
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #FE1212, #ff4444);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 86, 216, 0.2);
+        }
+        .btn-reset:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(254, 18, 18, 0.3);
+        }
+        .result {
+            grid-column: 1 / -1;
+            background: #f6f9ff;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid #e8edf5;
+        }
+        .result p {
+            font-size: 1.3rem;
+            color: #FE1212;
+            font-weight: 500;
+            margin: 0;
+        }
+        .hero-description {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        .info-section {
+            margin-top: 40px;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 8px;
+        }
+        .info-section h2 {
+            color: #FE1212;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+        .info-section p {
+            line-height: 1.6;
+            color: #555;
+        }
+        header h2 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+        header p {
+            margin: 5px 0 0 0;
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+        header {
+            background-color: rgba(254, 18, 18, 0.1);
+            padding: 15px 0;
+            color: #FE1212;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: #FE1212;
+        }
+
+        .logo i {
+            font-size: 1.5rem;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav a {
+            color: #FE1212;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        nav a:hover {
+            opacity: 1;
+            color: #ff4444;
+        }
+
+        .cta-button {
+            background-color: #FE1212;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background-color: #ff4444;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(254, 18, 18, 0.2);
+        }
+
+        .input-group input::placeholder {
+            color: #ffaaaa;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <i class="fas fa-crop"></i>
+                <span>AspectCalc</span>
+            </div>
+            
+            <nav>
+                <ul>
+                    <li><a href="#calculator">Calculator</a></li>
+                    <li><a href="#guide">Guide</a></li>
+                </ul>
+            </nav>
+
+            <a href="#get-started" class="cta-button">Get Started</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>Aspect Ratio Calculator</h1>
+        <p class="hero-description">Calculate and visualize the aspect ratio between any two dimensions. Perfect for designers, developers, and content creators.</p>
+        
+        <div class="calculator">
+            <div class="inputs">
+                <div class="input-group">
+                    <label for="width">Width</label>
+                    <input type="number" id="width" placeholder="Enter width value">
+                </div>
+                
+                <div class="input-group">
+                    <label for="height">Height</label>
+                    <input type="number" id="height" placeholder="Enter height value">
+                </div>
+            </div>
+
+            <div class="preview">
+                <div class="preview-label">Visual Preview</div>
+                <div class="preview-container">
+                    <div class="ratio-box" id="preview-box">
+                        <span id="preview-text">16:9</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="result" id="result">
+                <p>Enter dimensions to see the aspect ratio</p>
+            </div>
+
+            <div class="btn-container">
+                <button class="btn-reset" onclick="resetCalculator()">Reset Values</button>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2>Understanding Aspect Ratios</h2>
+            <p>An aspect ratio represents the proportional relationship between the width and height of an image or screen. Common aspect ratios include 16:9 for modern displays, 4:3 for traditional screens, and 1:1 for square formats.</p>
+        </div>
+    </div>
+
+    <footer style="background-color: #f5f5f5; padding: 20px 0; text-align: center; margin-top: 50px; border-top: 1px solid #ddd;">
+        <p>© 2024 Aspect Ratio Calculator. All rights reserved.</p>
+        <p><small>Made with ❤️ for the design community. Powered By <a href="#"> Software Festival</a></small></p>
+    </footer>
+
+    <script>
+        const widthInput = document.getElementById('width');
+        const heightInput = document.getElementById('height');
+        const resultDiv = document.getElementById('result');
+        const previewBox = document.getElementById('preview-box');
+
+        function calculateAspectRatio() {
+            const width = parseFloat(widthInput.value);
+            const height = parseFloat(heightInput.value);
+
+            if (!width || !height || width <= 0 || height <= 0) {
+                resultDiv.innerHTML = '<p style="color: #ff4444;">Please enter valid positive numbers</p>';
+                previewBox.style.opacity = '0.5';
+                return;
+            }
+
+            const gcd = (a, b) => (b === 0 ? a : gcd(b, a % b));
+            const divisor = gcd(width, height);
+            const aspectWidth = width / divisor;
+            const aspectHeight = height / divisor;
+            const decimalRatio = (width / height).toFixed(2);
+
+            resultDiv.innerHTML = `
+                <p>
+                    <span style="font-size: 2rem; display: block; margin-bottom: 10px;">
+                        ${aspectWidth}:${aspectHeight}
+                    </span>
+                    <span style="color: #666; font-size: 1rem;">
+                        or ${decimalRatio}:1
+                    </span>
+                </p>
+            `;
+
+            // Update preview box with improved scaling
+            const previewContainer = previewBox.parentElement;
+            const containerWidth = previewContainer.clientWidth - 40; // Account for padding
+            const containerHeight = previewContainer.clientHeight - 40;
+            
+            const scaleWidth = containerWidth / aspectWidth;
+            const scaleHeight = containerHeight / aspectHeight;
+            const scale = Math.min(scaleWidth, scaleHeight);
+            
+            const finalWidth = aspectWidth * scale;
+            const finalHeight = aspectHeight * scale;
+            
+            previewBox.style.width = `${finalWidth}px`;
+            previewBox.style.height = `${finalHeight}px`;
+            previewBox.style.opacity = '1';
+            document.getElementById('preview-text').textContent = `${aspectWidth}:${aspectHeight}`;
+        }
+
+        function setInitialPreviewBox() {
+            const previewContainer = previewBox.parentElement;
+            const containerWidth = previewContainer.clientWidth - 40;
+            const containerHeight = previewContainer.clientHeight - 40;
+            const initialSize = Math.min(containerWidth, containerHeight);
+            
+            previewBox.style.width = `${initialSize}px`;
+            previewBox.style.height = `${initialSize}px`;
+            previewBox.style.opacity = '0.7';
+            document.getElementById('preview-text').textContent = '1:1';
+        }
+
+        function resetCalculator() {
+            widthInput.value = '';
+            heightInput.value = '';
+            resultDiv.innerHTML = '<p>Enter dimensions to see the aspect ratio</p>';
+            setInitialPreviewBox();
+        }
+
+        widthInput.addEventListener('input', calculateAspectRatio);
+        heightInput.addEventListener('input', calculateAspectRatio);
+
+        window.addEventListener('load', setInitialPreviewBox);
+        window.addEventListener('resize', setInitialPreviewBox);
+    </script>
+</body>
+</html>
